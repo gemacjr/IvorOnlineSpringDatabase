@@ -8,28 +8,20 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 @Component
 public class LoadPersons implements CommandLineRunner {
-    //PROPERTIES
-    //PROPERTIES
-    @PersistenceContext EntityManager entityManager;
+    @Autowired PersonRepository personRepository;
     //================================================================
 // RUN
 //================================================================
     @Override
     @Transactional
     public void run(String... args) {
-//NATIVE QUERY (Insert one Record)
-        String insert =
-                "INSERT INTO PERSON (name, age) VALUES (:name, :age)";
-        Query query = entityManager.createNativeQuery(insert);
-        query.setParameter("name", "John");
-        query.setParameter("age" , 20 );
-//INSERT PERSON
-        Integer insertedRecords = query.executeUpdate();
+        personRepository.save(new Person("John" , 20));
+        personRepository.save(new Person("John" , 21));
+        personRepository.save(new Person("Bill" , 30));
+        personRepository.save(new Person("Nancy", 40));
+        personRepository.save(new Person("Susan", 50));
     }
 }

@@ -16,29 +16,64 @@ import java.util.List;
 @RestController
 public class MyController {
     //PROPERTIES
-    @Autowired DBAccess dbAccess;
-    //================================================================
-// SELECT PERSON
-//================================================================
-    @RequestMapping("SelectPerson")
-    Person selectPerson() {
-        Person person = dbAccess.selectPerson();
+    @Autowired PersonRepository personRepository;
+    @RequestMapping("NoParameters")
+    Person noParameters() {
+        Person person = personRepository.noParameters();
         return person;
     }
     //================================================================
-// UPDATE PERSON
+// INDEXED PARAMETERS
 //================================================================
-    @RequestMapping("UpdatePerson")
-    String updatePerson() {
-        Integer updatedRecords = dbAccess.updatePerson();
-        return updatedRecords + " Records Updated";
+    @RequestMapping("IndexedParameters")
+    Person indexedParameters() {
+        Person person = personRepository.indexedParameters("John", 20);
+        return person;
     }
     //================================================================
-// DELETE PERSON
+// NAMED PARAMETERS
 //================================================================
-    @RequestMapping("DeletePerson")
-    String deletePerson() {
-        Integer deletedRecords = dbAccess.deletePerson();
-        return deletedRecords + " Records Deleted";
+    @RequestMapping("NamedParameters")
+    Person namedParameters() {
+        Person person = personRepository.namedParameters("John", 20);
+        return person;
+    }
+    //================================================================
+// SELECT PERSON BY NAME AGE (Returns Single Entity)
+//================================================================
+    @RequestMapping("SelectPersonByNameAge")
+    Person selectPersonByNameAge() {
+        Person john = personRepository.selectPersonByNameAge("John", 20);
+        return john;
+    }
+    //================================================================
+// SELECT PERSONS BY NAME (Returns List)
+//================================================================
+    @RequestMapping("SelectPersonsByName")
+    List<Person> selectPersonsByName() {
+        List<Person> persons = personRepository.selectPersonsByName("John");
+        return persons;
+    }
+
+    @RequestMapping("UpdatePersonsByName")
+    String updatePersonsByName() {
+        Integer recordsUpdated = personRepository.updatePersonsByName("John", 50); //New age
+        return recordsUpdated + " Records Updated";
+    }
+    //================================================================
+// DELETE PERSON BY NAME
+//================================================================
+    @RequestMapping("DeletePersonsByName")
+    String deletePersonsByName() {
+        Integer recordsDeleted = personRepository.deletePersonsByName("John");
+        return recordsDeleted + " Records Deleted";
+    }
+    //=======================================================================================
+// INSERT PERSON
+//=======================================================================================
+    @RequestMapping("InsertPerson")
+    String insertPerson() {
+        Integer recordsDeleted = personRepository.insertPerson("Jack", 100);
+        return recordsDeleted + " Records Inserted";
     }
 }
