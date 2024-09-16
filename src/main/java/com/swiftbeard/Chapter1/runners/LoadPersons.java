@@ -1,6 +1,6 @@
 package com.swiftbeard.Chapter1.runners;
 
-import com.swiftbeard.Chapter1.entities.Address;
+
 import com.swiftbeard.Chapter1.entities.Person;
 import com.swiftbeard.Chapter1.repositories.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
