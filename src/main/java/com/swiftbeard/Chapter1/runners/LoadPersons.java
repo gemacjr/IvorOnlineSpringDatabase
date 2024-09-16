@@ -18,7 +18,8 @@ public class LoadPersons implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) {
-        personRepository.save(new Person("John", 20, new Address("London" , "First street" )));
-        personRepository.save(new Person("Sam", 40, new Address("Washington", "Second street")));
+        personRepository.deleteAll();
+        personRepository.save(new Person("John","Doe", 20));
+        personRepository.save(new Person("Bill", "Smith", 40));
     }
 }

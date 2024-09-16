@@ -5,13 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
 @Entity
 public class Person {
     //PROPERTIES
@@ -20,14 +13,10 @@ public class Person {
     public Integer id;
     public String name;
     public Integer age;
-    //RELATIONSHIP
-    @OneToOne(cascade = CascadeType.ALL)
-    public Address address;
     //CONSTRUCTORS
     public Person() {} //Requiered by @Entity
-    public Person(String name, Integer age, Address address) { //For loading data inside LoadPersons.java
+    public Person(String name, String lastName, Integer age) { //For loading data inside LoadPersons.java
         this.name = name;
         this.age = age;
-        this.address = address;
     }
 }
