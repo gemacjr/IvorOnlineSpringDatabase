@@ -1,6 +1,7 @@
 package com.swiftbeard.Chapter1.repositories;
 
 import com.swiftbeard.Chapter1.entities.Person;
+import com.swiftbeard.Chapter1.entities.PersonDTO;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -11,8 +12,12 @@ import java.util.List;
 
 public interface PersonRepository extends CrudRepository<Person, Integer> {
     //=======================================================================================
-// SELECT PERSON
+// RETURN PERSON DTO
 //=======================================================================================
-    @Query(value = "SELECT person FROM Person person WHERE person.name = :name")
-    Person selectPerson(String name);
+//Needs fully qualified DTO name. Imports are not used.
+    @Query(value = "" +
+            "FROM Person person " +
+            "WHERE person.name = 'John'"
+    )
+    PersonDTO returnPersonDTO();
 }

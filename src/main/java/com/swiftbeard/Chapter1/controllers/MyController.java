@@ -1,6 +1,7 @@
 package com.swiftbeard.Chapter1.controllers;
 
 import com.swiftbeard.Chapter1.entities.Person;
+import com.swiftbeard.Chapter1.entities.PersonDTO;
 import com.swiftbeard.Chapter1.repositories.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,11 +14,11 @@ public class MyController {
     //PROPERTIES
     @Autowired PersonRepository personRepository;
     //================================================================
-// SELECT PERSON
+// RETURN PERSON DTO
 //================================================================
-    @RequestMapping("SelectPerson")
-    Person selectPerson() {
-        Person person = personRepository.selectPerson("John");
-        return person;
+    @RequestMapping("ReturnPersonDTO")
+    PersonDTO returnPersonDTO() {
+        PersonDTO personDTO = personRepository.returnPersonDTO();
+        return personDTO;
     }
 }
