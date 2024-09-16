@@ -5,5 +5,5 @@ import com.swiftbeard.Chapter1.entities.PersonProjection;
 import org.springframework.data.repository.CrudRepository;
 
 public interface PersonRepository extends CrudRepository<Person, Integer> {
-    PersonProjection findPersonProjectionByName(String name); //Project Entity to Interface
+    PersonProjection findVPersonProjectionByName(String name); //Project Entity to Interface//Project Entity to Interface
 }

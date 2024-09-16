@@ -1,5 +1,6 @@
 package com.swiftbeard.Chapter1.runners;
 
+import com.swiftbeard.Chapter1.entities.Address;
 import com.swiftbeard.Chapter1.entities.Person;
 import com.swiftbeard.Chapter1.repositories.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ public class LoadPersons implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) {
-        personRepository.save(new Person("John", 20));
-        personRepository.save(new Person("Bill", 40));
+        personRepository.save(new Person("John", 20, new Address("London" , "First street" )));
+        personRepository.save(new Person("Sam", 40, new Address("Washington", "Second street")));
     }
 }
