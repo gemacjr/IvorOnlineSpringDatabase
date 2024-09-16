@@ -6,10 +6,6 @@ import javax.persistence.*;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 
-@NamedQuery(
-        name = "Person.selectPerson",
-        query = "SELECT person.name, person.age FROM Person person WHERE person.name = :name"
-)
 @Entity
 public class Person {
     //PROPERTIES

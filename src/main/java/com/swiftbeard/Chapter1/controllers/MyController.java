@@ -16,23 +16,29 @@ import java.util.List;
 @RestController
 public class MyController {
     //PROPERTIES
-    @Autowired
-    PersonRepository personRepository;
-
-
-    @RequestMapping("ReturnPersonDTO")
-    PersonDTO returnPersonDTO() throws JsonProcessingException {
-//GET COLUMNS
-        Object[] columns = (Object[]) personRepository.selectPerson("John"); //["John",20]
-//DISPLAY COLUMNS
-        String columnsJSON = new ObjectMapper().writeValueAsString(columns);
-        System.out.println(columnsJSON);
-//MAP COLUMNS INTO DTO
-        PersonDTO personDTO = new PersonDTO();
-        personDTO.name = (String) columns[0];
-        personDTO.age = (Integer) columns[1];
-//RETURN DTO
-        return personDTO;
-
+    @Autowired DBAccess dbAccess;
+    //================================================================
+// SELECT PERSON
+//================================================================
+    @RequestMapping("SelectPerson")
+    Person selectPerson() {
+        Person person = dbAccess.selectPerson();
+        return person;
+    }
+    //================================================================
+// UPDATE PERSON
+//================================================================
+    @RequestMapping("UpdatePerson")
+    String updatePerson() {
+        Integer updatedRecords = dbAccess.updatePerson();
+        return updatedRecords + " Records Updated";
+    }
+    //================================================================
+// DELETE PERSON
+//================================================================
+    @RequestMapping("DeletePerson")
+    String deletePerson() {
+        Integer deletedRecords = dbAccess.deletePerson();
+        return deletedRecords + " Records Deleted";
     }
 }

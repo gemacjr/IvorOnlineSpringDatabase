@@ -15,15 +15,21 @@ import javax.persistence.Query;
 @Component
 public class LoadPersons implements CommandLineRunner {
     //PROPERTIES
-    @Autowired PersonRepository personRepository;
+    //PROPERTIES
+    @PersistenceContext EntityManager entityManager;
+    //================================================================
+// RUN
+//================================================================
     @Override
     @Transactional
-    public void run(String... args) throws Exception {
-//CREATE PERSON
-        Person person = new Person();
-        person.name = "John";
-        person.age = 20;
-//SAVE PERSON
-        personRepository.save(person);
+    public void run(String... args) {
+//NATIVE QUERY (Insert one Record)
+        String insert =
+                "INSERT INTO PERSON (name, age) VALUES (:name, :age)";
+        Query query = entityManager.createNativeQuery(insert);
+        query.setParameter("name", "John");
+        query.setParameter("age" , 20 );
+//INSERT PERSON
+        Integer insertedRecords = query.executeUpdate();
     }
 }

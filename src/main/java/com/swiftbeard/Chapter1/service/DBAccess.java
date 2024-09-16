@@ -13,19 +13,19 @@ import javax.persistence.PersistenceContext;
 @Service
 public class DBAccess {
     //PROPERTIES
-    @PersistenceContext
-    EntityManager entityManager;
+    @PersistenceContext EntityManager entityManager;
     //================================================================
 // SELECT PERSON
 //================================================================
     public Person selectPerson() {
-//REFERENCE QUERY USING ENTITY MANAGER
-        Query query = entityManager.createNamedQuery("Person.selectPerson");
-        query.setParameter(1, "John");
-        query.setParameter(2 , 20);
+//CREATE QUERY
+        String select = "SELECT john FROM Person john WHERE john.name = :name AND john.age = :age";
+        Query query = entityManager.createQuery(select, Person.class);
+        query.setParameter("name", "John");
+        query.setParameter("age" , 20);
 //SELECT PERSON
         Person person = (Person) query.getSingleResult();
-//RETURN
+//RETURN PERSON
         return person;
     }
     //================================================================
@@ -33,13 +33,14 @@ public class DBAccess {
 //================================================================
     @Transactional
     public Integer updatePerson() {
-//REFERENCE QUERY USING ENTITY MANAGER
-        Query query = entityManager.createNamedQuery("Person.updatePerson");
+//CREATE QUERY
+        String update = "UPDATE Person person SET person.age = :newAge WHERE person.name = :name";
+        Query query = entityManager.createQuery(update);
         query.setParameter("name" , "John");
         query.setParameter("newAge", 200);
-//UPDATE PERSON
+//INSERT PERSON
         Integer updatedRecords = query.executeUpdate();
-//RETURN
+//RETURN NUMBER OF INSERTED RECORDS
         return updatedRecords;
     }
     //================================================================
@@ -47,11 +48,13 @@ public class DBAccess {
 //================================================================
     @Transactional
     public Integer deletePerson() {
-//REFERENCE QUERY USING ENTITY MANAGER
-        Query query = entityManager.createNamedQuery("Person.deletePerson");
+//CREATE QUERY
+        String delete = "DELETE FROM Person person WHERE person.name = :name";
+        Query query = entityManager.createQuery(delete);
         query.setParameter("name", "John");
+//INSERT PERSON
         Integer deletedRecords = query.executeUpdate();
-//RETURN
+//RETURN NUMBER OF INSERTED RECORDS
         return deletedRecords;
     }
 }
