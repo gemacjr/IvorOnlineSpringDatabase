@@ -15,8 +15,10 @@ public class Person {
     public Integer age;
     //CONSTRUCTORS
     public Person() {} //Requiered by @Entity
-    public Person(String name, String lastName, Integer age) { //For loading data inside LoadPersons.java
+    public Person(String name, Integer age) { //For loading data inside LoadPersons.java
         this.name = name;
         this.age = age;
     }
+
+
 }

@@ -6,35 +6,75 @@ import com.swiftbeard.Chapter1.entities.PersonDTO;
 import com.swiftbeard.Chapter1.entities.PersonProjection;
 import com.swiftbeard.Chapter1.repositories.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
 @RestController
 public class MyController {
 
     @Autowired
     PersonRepository personRepository;
-    //================================================================
-// FIND PERSON BY NAME
-//================================================================
-    @RequestMapping("FindPersonByName")
-    Person findPersonByName() {
-        Person person = personRepository.findByName("John", Person.class);
+
+    //=======================================================================================
+// PARAMETERS
+//=======================================================================================
+// NO PARAMETERS
+    @RequestMapping("NoParameters")
+    Person noParameters() {
+        Person person = personRepository.noParameters();
         return person;
     }
-    //================================================================
-// FIND PERSON PROJECTION BY NAME
-//================================================================
-    @RequestMapping("FindPersonProjectionByName")
-    PersonProjection findPersonProjectionByName() {
-        PersonProjection personView = personRepository.findByName("John", PersonProjection.class);
-        return personView;
+    // INDEXED PARAMETERS
+    @RequestMapping("IndexedParameters")
+    Person indexedParameters() {
+        Person person = personRepository.indexedParameters("John", 20);
+        return person;
+    }
+
+    // NAMED PARAMETERS
+    @RequestMapping("NamedParameters")
+    Person namedParameters() {
+        Person person = personRepository.namedParameters("John", 20);
+        return person;
+    }
+    //=======================================================================================
+// SELECT
+//=======================================================================================
+// SELECT PERSON BY NAME AGE (Returns Single Entity)
+    @RequestMapping("SelectPersonByNameAge")
+    Person selectPersonByNameAge() {
+        Person john = personRepository.selectPersonByNameAge("John", 20);
+        return john;
+    }
+    // SELECT PERSONS BY NAME (Returns List)
+    @RequestMapping("SelectPersonsByName")
+    List<Person> selectPersonsByName() {
+        List<Person> persons = personRepository.selectPersonsByName("John");
+        return persons;
+    }
+    // SELECT PERSONS BY NAME SORTED
+    @RequestMapping("SelectPersonsByNameSorted")
+    List<Person> selectPersonsByNameSorted() {
+        List<Person> persons = personRepository.selectPersonsByNameSorted("John", Sort.by("age"));
+        return persons;
     }
     //================================================================
-// FIND PERSON DTO BY NAME
+// UPDATE PERSON BY NAME
 //================================================================
-    @RequestMapping("FindPersonDTOByName")
-    PersonDTO findPersonDTOByName() {
-        PersonDTO personDTO = personRepository.findByName("John", PersonDTO.class);
-        return personDTO;
+    @RequestMapping("UpdatePersonsByName")
+    String updatePersonsByName() {
+        Integer recordsUpdated = personRepository.updatePersonsByName("John", 50); //New age
+        return recordsUpdated + " Records Updated";
+    }
+    //================================================================
+// DELETE PERSON BY NAME
+//================================================================
+    @RequestMapping("DeletePersonsByName")
+    String deletePersonsByName() {
+        Integer recordsDeleted = personRepository.deletePersonsByName("John");
+        return recordsDeleted + " Records Deleted";
     }
 }
