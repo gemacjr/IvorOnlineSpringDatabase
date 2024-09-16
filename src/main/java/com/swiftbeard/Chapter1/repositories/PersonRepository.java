@@ -11,15 +11,28 @@ import java.util.List;
 
 public interface PersonRepository extends CrudRepository<Person, Integer> {
     //=======================================================================================
-// RETURN STRING
+// RETURN JSON RECORD
 //=======================================================================================
-// John,20
-    @Query(nativeQuery = true, value = "SELECT name, age FROM PERSON WHERE NAME = 'John' AND AGE = 20")
-    String returnString();
+// {"name":"John","age":21}
+    @Query(
+            value =
+                    "SELECT CAST(row_to_json(EXPRESSION) AS VARCHAR)" +
+                            "FROM (SELECT name, age FROM PERSON WHERE NAME = 'John' AND AGE = 20) AS EXPRESSION"
+            ,
+            nativeQuery = true
+    )
+    String returnJSONRecord();
     //=======================================================================================
-// RETURN SCALAR
+// RETURN JSON ARRAY
 //=======================================================================================
-// 20
-    @Query(nativeQuery = true, value = "SELECT age FROM PERSON WHERE NAME = 'John' AND AGE = 20")
-    Integer returnScalar();
+// [{"name":"John","age":20},{"name":"John","age":21}] Returns String that looks like JSON Array
+// [] Returns [] if no Records are found
+    @Query(
+            value =
+                    "SELECT CAST(COALESCE(json_agg(EXPRESSION), '[]') AS varchar) " +
+                            "FROM (SELECT name, age FROM PERSON WHERE NAME = 'John') AS EXPRESSION"
+            ,
+            nativeQuery = true
+    )
+    String returnJSONArray();
 }

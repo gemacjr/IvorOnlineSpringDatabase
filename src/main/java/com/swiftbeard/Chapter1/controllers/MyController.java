@@ -19,21 +19,21 @@ public class MyController {
     @Autowired PersonRepository personRepository;
 
     //================================================================
-// RETURN STRING
+// RETURN JSON RECORD
 //================================================================
-// John,20
-    @RequestMapping("ReturnString")
-    String returnString() {
-        String nameAge = personRepository.returnString();
-        return nameAge;
+// {"name":"John","age":20}
+    @RequestMapping("ReturnJSONRecord")
+    String returnJSONRecord() {
+        String json = personRepository.returnJSONRecord();
+        return json;
     }
     //================================================================
-// RETURN SCALAR
+// RETURN JSON ARRAY
 //================================================================
-// 20
-    @RequestMapping("ReturnScalar")
-    Integer returnScalar() {
-        Integer age = personRepository.returnScalar();
-        return age;
+// [{"name":"John","age":20}, {"name":"John","age":21}]
+    @RequestMapping("ReturnJSONArray")
+    String returnJSONArray() {
+        String json = personRepository.returnJSONArray();
+        return json;
     }
 }

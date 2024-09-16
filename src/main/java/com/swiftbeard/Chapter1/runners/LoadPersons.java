@@ -18,11 +18,8 @@ public class LoadPersons implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) throws Exception {
-        //CREATE PERSON
-        Person person = new Person();
-        person.name = "John";
-        person.age = 20;
-//SAVE PERSON
-        personRepository.save(person);
+        personRepository.save(new Person("John" , 20));
+        personRepository.save(new Person("John" , 21));
+        personRepository.save(new Person("Bill" , 30));
     }
 }
