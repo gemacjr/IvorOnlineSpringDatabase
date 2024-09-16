@@ -1,8 +1,8 @@
 package com.swiftbeard.Chapter1.entities;
 
-//Closed Projection returns subset of Properties from DB.
+import org.springframework.beans.factory.annotation.Value;
+//Opened Projection returns value calculated from Properties. All Properties are returned from DB.
 public interface PersonProjection {
-    //GETTERS
-    String getName();
-    Integer getAge ();
+    @Value("#{target.firstName + ' ' + target.lastName}") //SpEL - Spring Expression Language
+    String getFullName();
 }
