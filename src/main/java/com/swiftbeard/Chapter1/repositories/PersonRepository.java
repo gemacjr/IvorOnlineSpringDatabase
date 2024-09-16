@@ -11,9 +11,15 @@ import java.util.List;
 
 public interface PersonRepository extends CrudRepository<Person, Integer> {
     //=======================================================================================
-// RETURN OBJECT ARRAY
+// RETURN STRING
 //=======================================================================================
-// ["John",20]
-    @Query(nativeQuery = true, value = "SELECT name, age FROM PERSON WHERE NAME = 'John'")
-    Object selectPerson();
+// John,20
+    @Query(nativeQuery = true, value = "SELECT name, age FROM PERSON WHERE NAME = 'John' AND AGE = 20")
+    String returnString();
+    //=======================================================================================
+// RETURN SCALAR
+//=======================================================================================
+// 20
+    @Query(nativeQuery = true, value = "SELECT age FROM PERSON WHERE NAME = 'John' AND AGE = 20")
+    Integer returnScalar();
 }

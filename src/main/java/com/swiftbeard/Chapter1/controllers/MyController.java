@@ -18,18 +18,22 @@ public class MyController {
     //PROPERTIES
     @Autowired PersonRepository personRepository;
 
-    @RequestMapping("ReturnPersonDTO")
-    PersonDTO returnPersonDTO() throws JsonProcessingException {
-//GET COLUMNS
-        Object[] columns = (Object[]) personRepository.selectPerson(); //["John",20]
-//DISPLAY COLUMNS
-        String columnsJSON = new ObjectMapper().writeValueAsString(columns);
-        System.out.println(columnsJSON);
-//MAP COLUMNS INTO DTO
-        PersonDTO personDTO = new PersonDTO();
-        personDTO.name = (String ) columns[0];
-        personDTO.age = (Integer) columns[1];
-//RETURN OBJECT ARRAY
-        return personDTO;
+    //================================================================
+// RETURN STRING
+//================================================================
+// John,20
+    @RequestMapping("ReturnString")
+    String returnString() {
+        String nameAge = personRepository.returnString();
+        return nameAge;
+    }
+    //================================================================
+// RETURN SCALAR
+//================================================================
+// 20
+    @RequestMapping("ReturnScalar")
+    Integer returnScalar() {
+        Integer age = personRepository.returnScalar();
+        return age;
     }
 }
