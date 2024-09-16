@@ -4,6 +4,7 @@ import com.swiftbeard.Chapter1.entities.Person;
 import com.swiftbeard.Chapter1.entities.PersonDTO;
 import com.swiftbeard.Chapter1.entities.PersonProjection;
 import com.swiftbeard.Chapter1.repositories.PersonRepository;
+import com.swiftbeard.Chapter1.service.DBAccess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,13 +14,14 @@ import java.util.List;
 @RestController
 public class MyController {
     //PROPERTIES
-    @Autowired PersonRepository personRepository;
+    @Autowired
+    DBAccess dbAccess;
     //================================================================
 // SELECT PERSON
 //================================================================
     @RequestMapping("SelectPerson")
-    Person selectPerson() {
-        Person person = personRepository.selectPerson("John", 20);
+    Person selectPersonByNameAge() {
+        Person person = dbAccess.selectPerson();
         return person;
     }
     //================================================================
@@ -27,7 +29,7 @@ public class MyController {
 //================================================================
     @RequestMapping("UpdatePerson")
     String updatePerson() {
-        Integer updatedRecords = personRepository.updatePerson("John", 200);
+        Integer updatedRecords = dbAccess.updatePerson();
         return updatedRecords + " Records Updated";
     }
     //================================================================
@@ -35,7 +37,7 @@ public class MyController {
 //================================================================
     @RequestMapping("DeletePerson")
     String deletePerson() {
-        Integer deletedRecords = personRepository.deletePerson("John");
+        Integer deletedRecords = dbAccess.deletePerson();
         return deletedRecords + " Records Deleted";
     }
 }
