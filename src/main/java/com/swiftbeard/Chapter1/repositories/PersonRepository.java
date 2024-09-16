@@ -15,5 +15,5 @@ public interface PersonRepository extends CrudRepository<Person, Integer> {
 //=======================================================================================
 // ["John",20]
     @Query(nativeQuery = true, value = "SELECT name, age FROM PERSON WHERE NAME = 'John'")
-    Object returnObjectArray();
+    Object selectPerson();
 }
