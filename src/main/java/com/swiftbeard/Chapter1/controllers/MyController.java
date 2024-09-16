@@ -17,9 +17,9 @@ import java.util.List;
 public class MyController {
     //PROPERTIES
     @Autowired PersonRepository personRepository;
-    @RequestMapping("SelectPersonByNameAge")
-    Person selectPersonByNameAge() {
-        Person person = personRepository.selectPersonByNameAge("John", 20); //Returns Single Entity
-        return person;
+    @RequestMapping("ReturnPersonProjection")
+    PersonProjection returnPersonProjection() {
+        PersonProjection personProjection = personRepository.returnPersonProjection("John");
+        return personProjection;
     }
 }
