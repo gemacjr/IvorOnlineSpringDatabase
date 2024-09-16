@@ -7,20 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 
 @NamedQuery(
-        name = "Person.returnEntity",
-        query = "SELECT person FROM Person person WHERE person.name = :name"
-)
-@NamedQuery(
-        name = "Person.returnObjectArray",
+        name = "Person.selectPerson",
         query = "SELECT person.name, person.age FROM Person person WHERE person.name = :name"
-)
-@NamedQuery(
-        name = "Person.returnString",
-        query = "SELECT person.name, person.age FROM Person person WHERE person.name = :name"
-)
-@NamedQuery(
-        name = "Person.returnScalar",
-        query = "SELECT person.age FROM Person person WHERE person.name = :name"
 )
 @Entity
 public class Person {

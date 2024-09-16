@@ -16,12 +16,9 @@ import javax.persistence.Query;
 public class LoadPersons implements CommandLineRunner {
     //PROPERTIES
     @Autowired PersonRepository personRepository;
-    //================================================================
-// RUN
-//================================================================
     @Override
     @Transactional
-    public void run(String... args) {
+    public void run(String... args) throws Exception {
 //CREATE PERSON
         Person person = new Person();
         person.name = "John";

@@ -6,8 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface PersonRepository extends CrudRepository<Person, Integer> {
-    Person returnEntity (String name);
-    Object returnObjectArray(String name);
-    String returnString (String name);
-    Integer returnScalar (String name);
+    Object selectPerson(String name);
 }

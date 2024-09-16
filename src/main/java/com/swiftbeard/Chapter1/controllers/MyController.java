@@ -1,5 +1,7 @@
 package com.swiftbeard.Chapter1.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.swiftbeard.Chapter1.entities.Person;
 import com.swiftbeard.Chapter1.entities.PersonDTO;
 import com.swiftbeard.Chapter1.entities.PersonProjection;
@@ -14,37 +16,23 @@ import java.util.List;
 @RestController
 public class MyController {
     //PROPERTIES
-    @Autowired PersonRepository personRepository;
-    //================================================================
-// RETURN ENTITY
-//================================================================
-    @RequestMapping("ReturnEntity")
-    Person returnEntity() {
-        Person person = personRepository.returnEntity("John");
-        return person;
-    }
-    //================================================================
-// RETURN OBJECT ARRAY
-//================================================================
-    @RequestMapping("ReturnObjectArray")
-    Object[] returnObjectArray() {
-        Object[] objectArray = (Object[]) personRepository.returnObjectArray("John");
-        return objectArray;
-    }
-    //================================================================
-// RETURN STRING
-//================================================================
-    @RequestMapping("ReturnString")
-    String returnString() {
-        String nameAge = personRepository.returnString("John");
-        return nameAge;
-    }
-    //================================================================
-// RETURN SCALAR
-//================================================================
-    @RequestMapping("ReturnScalar")
-    Integer returnScalar() {
-        Integer age = personRepository.returnScalar("John");
-        return age;
+    @Autowired
+    PersonRepository personRepository;
+
+
+    @RequestMapping("ReturnPersonDTO")
+    PersonDTO returnPersonDTO() throws JsonProcessingException {
+//GET COLUMNS
+        Object[] columns = (Object[]) personRepository.selectPerson("John"); //["John",20]
+//DISPLAY COLUMNS
+        String columnsJSON = new ObjectMapper().writeValueAsString(columns);
+        System.out.println(columnsJSON);
+//MAP COLUMNS INTO DTO
+        PersonDTO personDTO = new PersonDTO();
+        personDTO.name = (String) columns[0];
+        personDTO.age = (Integer) columns[1];
+//RETURN DTO
+        return personDTO;
+
     }
 }
