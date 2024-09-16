@@ -7,16 +7,20 @@ import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 
 @NamedQuery(
-        name = "Person.selectPerson",
-        query = "SELECT person FROM Person person WHERE person.name = ?1 AND person.age = ?2"
+        name = "Person.returnEntity",
+        query = "SELECT person FROM Person person WHERE person.name = :name"
 )
 @NamedQuery(
-        name = "Person.updatePerson",
-        query = "UPDATE Person person SET person.age = :newAge WHERE person.name = :name"
+        name = "Person.returnObjectArray",
+        query = "SELECT person.name, person.age FROM Person person WHERE person.name = :name"
 )
 @NamedQuery(
-        name = "Person.deletePerson",
-        query = "DELETE FROM Person person WHERE person.name = :name"
+        name = "Person.returnString",
+        query = "SELECT person.name, person.age FROM Person person WHERE person.name = :name"
+)
+@NamedQuery(
+        name = "Person.returnScalar",
+        query = "SELECT person.age FROM Person person WHERE person.name = :name"
 )
 @Entity
 public class Person {

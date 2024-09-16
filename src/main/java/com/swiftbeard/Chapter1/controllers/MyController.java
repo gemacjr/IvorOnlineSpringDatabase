@@ -14,30 +14,37 @@ import java.util.List;
 @RestController
 public class MyController {
     //PROPERTIES
-    @Autowired
-    DBAccess dbAccess;
+    @Autowired PersonRepository personRepository;
     //================================================================
-// SELECT PERSON
+// RETURN ENTITY
 //================================================================
-    @RequestMapping("SelectPerson")
-    Person selectPersonByNameAge() {
-        Person person = dbAccess.selectPerson();
+    @RequestMapping("ReturnEntity")
+    Person returnEntity() {
+        Person person = personRepository.returnEntity("John");
         return person;
     }
     //================================================================
-// UPDATE PERSON
+// RETURN OBJECT ARRAY
 //================================================================
-    @RequestMapping("UpdatePerson")
-    String updatePerson() {
-        Integer updatedRecords = dbAccess.updatePerson();
-        return updatedRecords + " Records Updated";
+    @RequestMapping("ReturnObjectArray")
+    Object[] returnObjectArray() {
+        Object[] objectArray = (Object[]) personRepository.returnObjectArray("John");
+        return objectArray;
     }
     //================================================================
-// DELETE PERSON
+// RETURN STRING
 //================================================================
-    @RequestMapping("DeletePerson")
-    String deletePerson() {
-        Integer deletedRecords = dbAccess.deletePerson();
-        return deletedRecords + " Records Deleted";
+    @RequestMapping("ReturnString")
+    String returnString() {
+        String nameAge = personRepository.returnString("John");
+        return nameAge;
+    }
+    //================================================================
+// RETURN SCALAR
+//================================================================
+    @RequestMapping("ReturnScalar")
+    Integer returnScalar() {
+        Integer age = personRepository.returnScalar("John");
+        return age;
     }
 }
