@@ -18,11 +18,12 @@ public class MyController {
     //PROPERTIES
     @Autowired PersonRepository personRepository;
 
-    @RequestMapping("ReturnPersonProjection")
-    PersonProjection returnPersonProjection() {
-//GET PROJECTION
-        PersonProjection personProjection = personRepository.returnPersonProjection("John");
-//RETURN PROJECTION
-        return personProjection;
+    @RequestMapping("ReturnObjectArray")
+    Object returnObjectArray() {
+        Object[] properties = (Object[]) personRepository.returnObjectArray();
+        String name = (String) properties[0];
+        Integer age = (Integer) properties[1];
+        System.out.println(name + ", " + age);
+        return properties;
     }
 }

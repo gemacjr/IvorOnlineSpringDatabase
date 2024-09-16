@@ -10,6 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 public interface PersonRepository extends CrudRepository<Person, Integer> {
-    @Query(value = "SELECT name, age FROM PERSON WHERE NAME = :name", nativeQuery = true)
-    PersonProjection returnPersonProjection(String name);
+    //=======================================================================================
+// RETURN OBJECT ARRAY
+//=======================================================================================
+// ["John",20]
+    @Query(nativeQuery = true, value = "SELECT name, age FROM PERSON WHERE NAME = 'John'")
+    Object returnObjectArray();
 }
