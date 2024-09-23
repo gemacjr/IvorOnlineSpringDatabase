@@ -5,56 +5,88 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.swiftbeard.Chapter1.entities.Person;
-import javax.persistence.Query;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 @Service
 public class DBAccess {
+
     //PROPERTIES
     @PersistenceContext EntityManager entityManager;
+
     //================================================================
-// SELECT PERSON
-//================================================================
+    // SELECT PERSON
+    //================================================================
     public Person selectPerson() {
-//CREATE QUERY
-        String select = "SELECT john FROM Person john WHERE john.name = :name AND john.age = :age";
-        Query query = entityManager.createQuery(select, Person.class);
+
+        //REFERENCE QUERY USING ENTITY MANAGER
+        Query query  = entityManager.createNamedQuery("Person.selectPerson");
+        query.setParameter(1, "John");
+        query.setParameter(2 , 20);
+
+        //GET PERSON
+        Person person = (Person) query.getSingleResult();
+
+        //RETURN
+        return person;
+
+    }
+
+    //================================================================
+    // INSERT PERSON
+    //================================================================
+    @Transactional
+    public Integer insertPerson() {
+
+        //REFERENCE QUERY USING ENTITY MANAGER
+        Query query = entityManager.createNamedQuery("Person.insertPerson");
         query.setParameter("name", "John");
         query.setParameter("age" , 20);
-//SELECT PERSON
-        Person person = (Person) query.getSingleResult();
-//RETURN PERSON
-        return person;
+
+        //GET NUMBER OF INSERTED RECORDS
+        Integer insertedRecords = query.executeUpdate();
+
+        //RETURN
+        return insertedRecords;
+
     }
+
     //================================================================
-// UPDATE PERSON
-//================================================================
+    // UPDATE PERSON
+    //================================================================
     @Transactional
     public Integer updatePerson() {
-//CREATE QUERY
-        String update = "UPDATE Person person SET person.age = :newAge WHERE person.name = :name";
-        Query query = entityManager.createQuery(update);
-        query.setParameter("name" , "John");
+
+        //REFERENCE QUERY USING ENTITY MANAGER
+        Query  query  = entityManager.createNamedQuery("Person.updatePerson");
+        query.setParameter("name"  , "John");
         query.setParameter("newAge", 200);
-//INSERT PERSON
+
+        //GET PERSON
         Integer updatedRecords = query.executeUpdate();
-//RETURN NUMBER OF INSERTED RECORDS
+
+        //RETURN
         return updatedRecords;
+
     }
+
     //================================================================
-// DELETE PERSON
-//================================================================
+    // DELETE PERSON
+    //================================================================
     @Transactional
     public Integer deletePerson() {
-//CREATE QUERY
-        String delete = "DELETE FROM Person person WHERE person.name = :name";
-        Query query = entityManager.createQuery(delete);
+
+        //REFERENCE QUERY USING ENTITY MANAGER
+        Query  query  = entityManager.createNamedQuery("Person.deletePerson");
         query.setParameter("name", "John");
-//INSERT PERSON
+
+        //GET PERSON
         Integer deletedRecords = query.executeUpdate();
-//RETURN NUMBER OF INSERTED RECORDS
+
+        //RETURN
         return deletedRecords;
+
     }
+
 }

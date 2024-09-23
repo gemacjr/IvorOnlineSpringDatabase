@@ -16,13 +16,13 @@ import java.util.List;
 @RestController
 public class MyController {
     //PROPERTIES
-    @Autowired PersonRepository personRepository;
+    @Autowired DBAccess dbAccess;
     //================================================================
-// SELECT PERSON BY NAME AGE
+// SELECT PERSON
 //================================================================
     @RequestMapping("SelectPerson")
     Person selectPerson() {
-        Person person = personRepository.selectPerson("John", 20);
+        Person person = dbAccess.selectPerson();
         return person;
     }
     //================================================================
@@ -30,15 +30,15 @@ public class MyController {
 //================================================================
     @RequestMapping("InsertPerson")
     String insertPerson() {
-        Integer insertedRecords = personRepository.insertPerson("John", 20);
-        return insertedRecords + " Records Inserted";
+        Integer insertedRecords = dbAccess.insertPerson();
+        return insertedRecords + "Records Inserted";
     }
     //================================================================
 // UPDATE PERSON
 //================================================================
     @RequestMapping("UpdatePerson")
     String updatePerson() {
-        Integer updatedRecords = personRepository.updatePerson("John", 200);
+        Integer updatedRecords = dbAccess.updatePerson();
         return updatedRecords + " Records Updated";
     }
     //================================================================
@@ -46,7 +46,7 @@ public class MyController {
 //================================================================
     @RequestMapping("DeletePerson")
     String deletePerson() {
-        Integer deletedRecords = personRepository.deletePerson("John");
+        Integer deletedRecords = dbAccess.deletePerson();
         return deletedRecords + " Records Deleted";
     }
 }
