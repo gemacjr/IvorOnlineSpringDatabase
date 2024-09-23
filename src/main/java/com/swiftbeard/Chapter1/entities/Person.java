@@ -6,6 +6,29 @@ import javax.persistence.*;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 
+@NamedNativeQuery(
+        name = "Person.selectPerson",
+        query = "SELECT * FROM Person WHERE name = ?1 AND age = ?2"
+        ,
+        resultClass = Person.class
+)
+@NamedNativeQuery(
+        name = "Person.insertPerson",
+        query = "INSERT INTO PERSON (name, age) VALUES (:name, :age)",
+        resultClass = Person.class
+)
+@NamedNativeQuery(
+        name = "Person.updatePerson",
+        query = "UPDATE PERSON SET AGE = :newAge WHERE NAME = :name"
+        ,
+        resultClass = Person.class
+)
+@NamedNativeQuery(
+        name = "Person.deletePerson",
+        query = "DELETE FROM PERSON WHERE NAME = :name"
+        ,
+        resultClass = Person.class
+)
 @Entity
 public class Person {
     //PROEPRTIES

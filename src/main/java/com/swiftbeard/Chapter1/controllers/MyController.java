@@ -17,23 +17,36 @@ import java.util.List;
 public class MyController {
     //PROPERTIES
     @Autowired PersonRepository personRepository;
-
     //================================================================
-// RETURN JSON RECORD
+// SELECT PERSON BY NAME AGE
 //================================================================
-// {"name":"John","age":20}
-    @RequestMapping("ReturnJSONRecord")
-    String returnJSONRecord() {
-        String json = personRepository.returnJSONRecord();
-        return json;
+    @RequestMapping("SelectPerson")
+    Person selectPerson() {
+        Person person = personRepository.selectPerson("John", 20);
+        return person;
     }
     //================================================================
-// RETURN JSON ARRAY
+// INSERT PERSON
 //================================================================
-// [{"name":"John","age":20}, {"name":"John","age":21}]
-    @RequestMapping("ReturnJSONArray")
-    String returnJSONArray() {
-        String json = personRepository.returnJSONArray();
-        return json;
+    @RequestMapping("InsertPerson")
+    String insertPerson() {
+        Integer insertedRecords = personRepository.insertPerson("John", 20);
+        return insertedRecords + " Records Inserted";
+    }
+    //================================================================
+// UPDATE PERSON
+//================================================================
+    @RequestMapping("UpdatePerson")
+    String updatePerson() {
+        Integer updatedRecords = personRepository.updatePerson("John", 200);
+        return updatedRecords + " Records Updated";
+    }
+    //================================================================
+// DELETE PERSON
+//================================================================
+    @RequestMapping("DeletePerson")
+    String deletePerson() {
+        Integer deletedRecords = personRepository.deletePerson("John");
+        return deletedRecords + " Records Deleted";
     }
 }
