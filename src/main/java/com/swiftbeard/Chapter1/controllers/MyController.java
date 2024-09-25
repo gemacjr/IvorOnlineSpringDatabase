@@ -19,16 +19,17 @@ public class MyController {//PROPERTIES
     //PROPERTIES
     @PersistenceContext EntityManager entityManager;
 
+    //================================================================
+// SELECT PERSON
+//================================================================
     @RequestMapping("SelectPerson")
-    Person selectPerson() {
+    PersonDTO selectPerson() {
 //CREATE QUERY
-        String select = "SELECT id, name AS authorName, age AS authorAge FROM Person WHERE name = :name";
-        Query query = entityManager.createNativeQuery(select,
-                "PersonMapping");
+        String select = "SELECT name, age FROM Person WHERE name = :name";
+        Query query = entityManager.createNativeQuery(select, "PersonViewMapping");
         query.setParameter("name", "John");
 //SELECT PERSON
-        Person person = (Person) query.getSingleResult();
+        PersonDTO personDTO = (PersonDTO) query.getSingleResult();
 //RETURN PERSON
-        return person;
+        return personDTO;
     }
-}

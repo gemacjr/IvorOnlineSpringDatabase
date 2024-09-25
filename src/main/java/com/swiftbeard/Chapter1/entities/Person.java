@@ -3,14 +3,12 @@ package com.swiftbeard.Chapter1.entities;
 import javax.persistence.*;
 
 @SqlResultSetMapping(
-        name = "PersonMapping"
-        ,
-        entities = @EntityResult(
-                entityClass = Person.class,
-                fields = {
-                        @FieldResult(name = "id" , column = "id" ), //All Columns must be mapped
-                        @FieldResult(name = "name", column = "authorName"),
-                        @FieldResult(name = "age" , column = "authorAge" )
+        name = "PersonViewMapping",
+        classes = @ConstructorResult(
+                targetClass = PersonDTO.class,
+                columns = {
+                        @ColumnResult(name = "name"),
+                        @ColumnResult(name = "age" )
                 }
         )
 )
