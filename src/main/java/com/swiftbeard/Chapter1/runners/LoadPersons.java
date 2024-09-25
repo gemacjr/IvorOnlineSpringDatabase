@@ -15,9 +15,7 @@ import javax.persistence.*;
 public class LoadPersons implements CommandLineRunner {
     @PersistenceContext
     EntityManager entityManager;
-    //=======================================================================================
-// RUN
-//=======================================================================================
+
     @Override
     @Transactional
     public void run(String... args) throws Exception {

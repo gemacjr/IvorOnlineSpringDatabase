@@ -18,61 +18,23 @@ public class MyController {//PROPERTIES
 
     //PROPERTIES
     @PersistenceContext EntityManager entityManager;
-    //================================================================
-// RETURN PERSON
-//================================================================
-    @RequestMapping("ReturnPerson")
-    Person returnPerson() {
-//CREATE QUERY
-        String select = "SELECT * FROM Person WHERE name = :name";
-        Query query = entityManager.createNativeQuery(select, Person.class);
-        query.setParameter("name", "John");
-        //RETURN PERSON
-        Person person = (Person) query.getSingleResult();
-//RETURN PERSON
-        return person;
-    }
-    //================================================================
-// RETURN ARRAY
-//================================================================
-    @RequestMapping("ReturnArray")
-    Object[] returnArray() {
-//CREATE QUERY
-        String select = "SELECT age, name FROM Person WHERE name = :name";
-        Query query = entityManager.createNativeQuery(select);
-        query.setParameter("name"
-                , "John");
-//RETURN ARRAY
-        Object[] array = (Object[]) query.getSingleResult();
-//RETURN ARRAY
-        return array;
-    }
-    //================================================================
-// RETURN SCALAR
-//================================================================
-    @RequestMapping("ReturnScalar")
-    Integer returnScalar() {
-//CREATE QUERY
-        String select = "SELECT age FROM Person WHERE name = :name";
-        Query query = entityManager.createNativeQuery(select);
-        query.setParameter("name", "John");
-//RETURN SCALAR
-        Integer age = (Integer) query.getSingleResult();
-//RETURN SCALAR
-        return age;
-    }
-    //================================================================
-// RETURN STRING (NOT WORKING)
-//================================================================
-    @RequestMapping("ReturnString")
-    String returnString() {
+
+    @RequestMapping("ReturnPersonDTO")
+    PersonDTO returnPersonDTO() throws JsonProcessingException {
 //CREATE QUERY
         String select = "SELECT name, age FROM Person WHERE name = :name";
         Query query = entityManager.createNativeQuery(select);
         query.setParameter("name", "John");
-//SELECT STRING
-        String nameAge = (String) query.getSingleResult(); //Throws Error
-//RETURN STRING
-        return nameAge;
+//EXECUTE QUERY (Returns Properties as Array Elements)
+        Object[] columns = (Object[]) query.getSingleResult(); //["John",20]
+//MAP ARRAY ELEMENTS INTO DTO PROPERTIES
+        PersonDTO personDTO = new PersonDTO();
+        personDTO.name = (String ) columns[0];
+        personDTO.age = (Integer) columns[1];
+//DISPLAY ARRAY ELEMENTS TO CONSOLE
+        String columnsJSON = new ObjectMapper().writeValueAsString(columns); //["John",20]
+        System.out.println(columnsJSON);
+//RETURN DTO
+        return personDTO;
     }
 }
