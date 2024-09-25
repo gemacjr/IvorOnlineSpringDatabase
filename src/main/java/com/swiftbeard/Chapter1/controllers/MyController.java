@@ -10,40 +10,43 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.persistence.*;
+import javax.transaction.*;
 import java.util.List;
 
 @RestController
-public class MyController {
-    //PROPERTIES
-    @Autowired
-    AuthorRepository authorRepository;
-    @PersistenceContext
-    EntityManager entityManager;
+public class MyController {//PROPERTIES
+    @Autowired DBAccess dbAccess;
     //================================================================
-// SELECT AUTHOR
+// SELECT PERSON
 //================================================================
-    @RequestMapping("SelectAuthor")
-    Author selectAuthor() throws JsonProcessingException {
-// SELECT AUTHOR USING REPOSITORY THROWS ERROR:
-// "Cannot create TypedQuery for query with more than one return"
-// This is why in this tutorial we are using createNativeQuery() instead
-// Object[] objectArray = (Object[]) query.getSingleResult(); //THROWS ERROR
-//CREATE QUERY
-        Query query = entityManager.createNamedQuery("Author.selectAuthorByName");
-        query.setParameter("name", "John");
-//SELECT AUTHOR
-        Object[] result = (Object[]) query.getSingleResult();
-        Author author = (Author) result[0];
-        Book book = (Book) result[1];
-//CONVERT OBJECTS TO JSON
-        String resultJSON = new ObjectMapper().writeValueAsString(result);
-        String authorJSON = new ObjectMapper().writeValueAsString(author);
-        String bookJSON = new ObjectMapper().writeValueAsString(book);
-//DISPLAY JSON
-        System.out.println("Object[] = " + resultJSON);
-        System.out.println("Author = " + authorJSON);
-        System.out.println("Book = " + bookJSON);
-//RETURN PERSON
-        return author;
+    @RequestMapping("SelectPerson")
+   public Person selectPerson() {
+        Person person = dbAccess.selectPerson();
+        return person;
+    }
+    //================================================================
+// INSERT PERSON
+//================================================================
+    @Transactional
+    @RequestMapping("InsertPerson")
+    public String insertPerson() {
+        Integer insertedRecords = dbAccess.insertPerson();
+        return insertedRecords + " Records Inserted";
+    }
+    //================================================================
+// UPDATE PERSON
+//================================================================
+    @RequestMapping("UpdatePerson")
+   public String updatePerson() {
+        Integer updatedRecords = dbAccess.updatePerson();
+        return updatedRecords + " Records Updated";
+    }
+    //================================================================
+// DELETE PERSON
+//================================================================
+    @RequestMapping("DeletePerson")
+   public String deletePerson() {
+        Integer deletedRecords = dbAccess.deletePerson();
+        return deletedRecords + " Records Deleted";
     }
 }

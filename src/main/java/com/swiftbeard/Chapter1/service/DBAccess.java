@@ -11,82 +11,63 @@ import javax.persistence.Query;
 
 @Service
 public class DBAccess {
-
-    //PROPERTIES
     @PersistenceContext EntityManager entityManager;
-
     //================================================================
-    // SELECT PERSON
-    //================================================================
+// SELECT PERSON
+//================================================================
     public Person selectPerson() {
-
-        //REFERENCE QUERY USING ENTITY MANAGER
-        Query query  = entityManager.createNamedQuery("Person.selectPerson");
-        query.setParameter(1, "John");
-        query.setParameter(2 , 20);
-
-        //GET PERSON
-        Person person = (Person) query.getSingleResult();
-
-        //RETURN
-        return person;
-
-    }
-
-    //================================================================
-    // INSERT PERSON
-    //================================================================
-    @Transactional
-    public Integer insertPerson() {
-
-        //REFERENCE QUERY USING ENTITY MANAGER
-        Query query = entityManager.createNamedQuery("Person.insertPerson");
+//CREATE QUERY
+        String select = "SELECT * FROM Person WHERE name = :name AND age = :age";
+        Query query = entityManager.createNativeQuery(select, Person.class);
         query.setParameter("name", "John");
         query.setParameter("age" , 20);
-
-        //GET NUMBER OF INSERTED RECORDS
-        Integer insertedRecords = query.executeUpdate();
-
-        //RETURN
-        return insertedRecords;
-
+//SELECT PERSON
+        Person person = (Person) query.getSingleResult();
+//RETURN PERSON
+        return person;
     }
-
     //================================================================
-    // UPDATE PERSON
+// INSERT PERSON
+//================================================================
+    @Transactional
+    public Integer insertPerson() {
+//CREATE QUERY
+        String insert = "INSERT INTO PERSON (name, age) VALUES (:name, :age)";
+        Query query = entityManager.createNativeQuery(insert);
+        query.setParameter("name", "John");
+        query.setParameter("age" , 20);
+//INSERT PERSON
+        Integer insertedRecords = query.executeUpdate();
+//RETURN NUMBER OF INSERTED RECORDS
+        return insertedRecords;
+    }
     //================================================================
+// UPDATE PERSON
+//================================================================
     @Transactional
     public Integer updatePerson() {
-
-        //REFERENCE QUERY USING ENTITY MANAGER
-        Query  query  = entityManager.createNamedQuery("Person.updatePerson");
-        query.setParameter("name"  , "John");
+//CREATE QUERY
+        String update = "UPDATE PERSON SET AGE = :newAge WHERE NAME = :name";
+        Query query = entityManager.createNativeQuery(update);
+        query.setParameter("name" , "John");
         query.setParameter("newAge", 200);
-
-        //GET PERSON
+//INSERT PERSON
         Integer updatedRecords = query.executeUpdate();
-
-        //RETURN
+//RETURN NUMBER OF INSERTED RECORDS
         return updatedRecords;
-
     }
-
     //================================================================
-    // DELETE PERSON
-    //================================================================
+// DELETE PERSON
+//================================================================
     @Transactional
     public Integer deletePerson() {
-
-        //REFERENCE QUERY USING ENTITY MANAGER
-        Query  query  = entityManager.createNamedQuery("Person.deletePerson");
-        query.setParameter("name", "John");
-
-        //GET PERSON
+//CREATE QUERY
+        String delete = "DELETE FROM PERSON WHERE NAME = :name";
+        Query query = entityManager.createNativeQuery(delete);
+        query.setParameter("name" , "John");
+//INSERT PERSON
         Integer deletedRecords = query.executeUpdate();
-
-        //RETURN
+//RETURN NUMBER OF INSERTED RECORDS
         return deletedRecords;
-
     }
-
 }
