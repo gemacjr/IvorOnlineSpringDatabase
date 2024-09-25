@@ -17,19 +17,18 @@ import java.util.List;
 public class MyController {//PROPERTIES
 
     //PROPERTIES
-    @PersistenceContext EntityManager entityManager;
+    @PersistenceContext
+    EntityManager entityManager;
 
-    //================================================================
-// SELECT PERSON
-//================================================================
     @RequestMapping("SelectPerson")
-    PersonDTO selectPerson() {
+    Object[] selectPerson() {
 //CREATE QUERY
-        String select = "SELECT name, age FROM Person WHERE name = :name";
-        Query query = entityManager.createNativeQuery(select, "PersonViewMapping");
+        String select = "SELECT id, name, age, name || ' is ' || age AS greet FROM Person WHERE name = :name";
+        Query query = entityManager.createNativeQuery(select, "PersonMapping");
         query.setParameter("name", "John");
 //SELECT PERSON
-        PersonDTO personDTO = (PersonDTO) query.getSingleResult();
+        Object[] objectArray = (Object[]) query.getSingleResult();
 //RETURN PERSON
-        return personDTO;
+        return objectArray;
     }
+}
