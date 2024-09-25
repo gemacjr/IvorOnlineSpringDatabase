@@ -16,37 +16,37 @@ import java.util.List;
 @RestController
 public class MyController {
     //PROPERTIES
-    @Autowired DBAccess dbAccess;
+    @Autowired PersonRepository personRepository;
     //================================================================
-// SELECT PERSON
+// RETURN PERSON
 //================================================================
-    @RequestMapping("SelectPerson")
-    Person selectPerson() {
-        Person person = dbAccess.selectPerson();
+    @RequestMapping("ReturnPerson")
+    Person returnPerson() {
+        Person person = personRepository.returnPerson("John", 20);
         return person;
     }
     //================================================================
-// INSERT PERSON
+// RETURN ARRAY
 //================================================================
-    @RequestMapping("InsertPerson")
-    String insertPerson() {
-        Integer insertedRecords = dbAccess.insertPerson();
-        return insertedRecords + "Records Inserted";
+    @RequestMapping("ReturnArray")
+    Object[] returnArray() {
+        Object[] array = (Object[]) personRepository.returnArray("John", 20);
+        return array;
     }
     //================================================================
-// UPDATE PERSON
+// RETURN STRING
 //================================================================
-    @RequestMapping("UpdatePerson")
-    String updatePerson() {
-        Integer updatedRecords = dbAccess.updatePerson();
-        return updatedRecords + " Records Updated";
+    @RequestMapping("ReturnString")
+    String returnString() {
+        String nameAge = personRepository.returnString("John", 20);
+        return nameAge;
     }
     //================================================================
-// DELETE PERSON
+// RETURN SCALAR
 //================================================================
-    @RequestMapping("DeletePerson")
-    String deletePerson() {
-        Integer deletedRecords = dbAccess.deletePerson();
-        return deletedRecords + " Records Deleted";
+    @RequestMapping("ReturnScalar")
+    Integer returnScalar() {
+        Integer age = personRepository.returnScalar("John", 20);
+        return age;
     }
 }

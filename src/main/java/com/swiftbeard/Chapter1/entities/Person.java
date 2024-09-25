@@ -7,24 +7,22 @@ import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 
 @NamedNativeQuery(
-        name        = "Person.selectPerson",
-        query       = "SELECT * FROM Person WHERE name = ?1 AND age = ?2",
+        name = "Person.returnPerson",
+        query = "SELECT * FROM Person WHERE name = :name AND age = :age"
+        ,
         resultClass = Person.class
 )
 @NamedNativeQuery(
-        name        = "Person.insertPerson",
-        query       = "INSERT INTO PERSON (name, age) VALUES (:name, :age)",
-        resultClass = Person.class
+        name = "Person.returnArray",
+        query = "SELECT name, age FROM Person WHERE name = :name AND age = :age"
 )
 @NamedNativeQuery(
-        name        = "Person.updatePerson",
-        query       = "UPDATE PERSON SET AGE = :newAge WHERE NAME = :name",
-        resultClass = Person.class
+        name = "Person.returnString",
+        query = "SELECT name, age FROM Person WHERE name = :name AND age = :age"
 )
 @NamedNativeQuery(
-        name        = "Person.deletePerson",
-        query       = "DELETE FROM PERSON WHERE NAME = :name",
-        resultClass = Person.class
+        name = "Person.returnScalar",
+        query = "SELECT age FROM Person WHERE name = :name AND age = :age"
 )
 @Entity
 public class Person {

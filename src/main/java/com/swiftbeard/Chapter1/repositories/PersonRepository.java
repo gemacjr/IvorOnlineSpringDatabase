@@ -9,9 +9,8 @@ import org.springframework.data.repository.CrudRepository;
 import javax.transaction.*;
 
 public interface PersonRepository extends CrudRepository<Person, Integer> {
-    Person selectPerson(String name, Integer age );
-    @Transactional
-    @Modifying Integer insertPerson(String name, Integer age );
-    @Transactional @Modifying Integer updatePerson(String name, Integer newAge);
-    @Transactional @Modifying Integer deletePerson(String name );
+    Person returnPerson (String name, Integer age);
+    Object returnArray (String name, Integer age);
+    Integer returnScalar (String name, Integer age);
+    String returnString (String name, Integer age);
 }
