@@ -20,15 +20,30 @@ public class MyController {//PROPERTIES
     @PersistenceContext
     EntityManager entityManager;
 
-    @RequestMapping("SelectPerson")
-    Object[] selectPerson() {
+    @RequestMapping("SelectAuthor")
+    Author selectAuthor() throws JsonProcessingException {
 //CREATE QUERY
-        String select = "SELECT id, name, age, name || ' is ' || age AS greet FROM Person WHERE name = :name";
-        Query query = entityManager.createNativeQuery(select, "PersonMapping");
+        String select =
+                "SELECT author.id AS authorId, name, age, book_id, " + //Author
+                        " book.id AS bookId, title " + //Book
+                        "FROM Author " +
+                        "JOIN Book ON book_id = book.id " + //Relationship
+                        "WHERE name = :name ";
+        Query query = entityManager.createNativeQuery(select, "AuthorBookMapping");
         query.setParameter("name", "John");
-//SELECT PERSON
-        Object[] objectArray = (Object[]) query.getSingleResult();
+//SELECT AUTHOR
+        Object[] result = (Object[]) query.getSingleResult();
+        Author author = (Author) result[0];
+        Book book = (Book) result[1];
+//CONVERT OBJECTS TO JSON
+        String resultJSON = new ObjectMapper().writeValueAsString(result);
+        String authorJSON = new ObjectMapper().writeValueAsString(author);
+        String bookJSON = new ObjectMapper().writeValueAsString(book);
+//DISPLAY JSON
+        System.out.println("Object[] = " + resultJSON);
+        System.out.println("Author = " + authorJSON);
+        System.out.println("Book = " + bookJSON);
 //RETURN PERSON
-        return objectArray;
+        return author;
     }
 }

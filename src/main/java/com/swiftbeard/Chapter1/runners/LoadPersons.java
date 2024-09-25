@@ -13,17 +13,21 @@ import javax.persistence.*;
 
 @Component
 public class LoadPersons implements CommandLineRunner {
-    @PersistenceContext
-    EntityManager entityManager;
+    //PROPERTIES
+    @Autowired AuthorRepository authorRepository;
 
     @Override
     @Transactional
     public void run(String... args) throws Exception {
-//INSERT PERSON
-        String insert = "INSERT INTO PERSON (name, age) VALUES (:name, :age)";
-        Query query = entityManager.createNativeQuery(insert);
-        query.setParameter("name", "John");
-        query.setParameter("age" , 20);
-        query.executeUpdate();
+//CREATE ADDRESS ENTITY
+        Book book = new Book();
+        book.title = "Dogs";
+//CREATE AUTHOR ENTITY
+        Author author = new Author();
+        author.name = "John";
+        author.age = 20;
+        author.book = book;
+//STORE AUTHOR/ADDRESS ENTITY INTO DB
+        authorRepository.save(author);
     }
 }

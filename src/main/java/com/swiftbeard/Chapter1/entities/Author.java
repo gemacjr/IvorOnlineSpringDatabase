@@ -33,16 +33,6 @@ import javax.persistence.SqlResultSetMapping;
                 )
         }
 )
-@NamedNativeQuery(
-        name = "Author.selectAuthorByName",
-        resultSetMapping = "AuthorBookMapping",
-        query =
-                "SELECT author.id AS authorId, name, age, book_id, " + //Author
-                        " book.id AS bookId, title " + //Book
-                        "FROM Author " +
-                        "JOIN Book ON book_id = book.id " + //Relationship
-                        "WHERE name = :name "
-)
 @Entity
 public class Author {
     //PROPERTIES
