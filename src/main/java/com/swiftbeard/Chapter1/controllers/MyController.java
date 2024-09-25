@@ -20,21 +20,12 @@ public class MyController {
 
 
     //================================================================
-// RETURN PERSON DTO
+// SELECT PERSON
 //================================================================
-    @RequestMapping("ReturnPersonDTO")
-    PersonDTO returnPersonDTO() throws JsonProcessingException {
-//GET COLUMNS
-        Object[] columns = (Object[]) personRepository.returnPersonDTO("John"); //["John",20]
-//DISPLAY COLUMNS
-        String columnsJSON = new ObjectMapper().writeValueAsString(columns);
-        System.out.println(columnsJSON);
-//MAP COLUMNS INTO DTO
-        PersonDTO personDTO = new PersonDTO();
-        personDTO.name = (String ) columns[0];
-        personDTO.age = (Integer) columns[1];
-//RETURN DTO
-        return personDTO;
+    @RequestMapping("SelectPerson")
+    Person selectPerson() throws JsonProcessingException {
+        Person person = personRepository.selectPerson("John");
+        return person;
     }
 
 }

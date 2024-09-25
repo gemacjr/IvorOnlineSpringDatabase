@@ -6,10 +6,23 @@ import javax.persistence.*;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 
+@SqlResultSetMapping(
+        name = "PersonMapping",
+        entities = @EntityResult(
+                entityClass = Person.class,
+                fields = {
+                        @FieldResult(name = "id" , column = "id" ), //All Columns must be mapped
+                        @FieldResult(name = "name", column = "authorName"),
+                        @FieldResult(name = "age" , column = "authorAge" )
+                }
+        )
+)
 @NamedNativeQuery(
-        name = "Person.returnPersonDTO"
+        name = "Person.selectPerson"
         ,
-        query = "SELECT name, age FROM Person WHERE name = :name"
+        query = "SELECT id, name AS authorName, age AS authorAge FROM Person WHERE name = :name"
+        ,
+        resultSetMapping = "PersonMapping"
 )
 @Entity
 public class Person {
