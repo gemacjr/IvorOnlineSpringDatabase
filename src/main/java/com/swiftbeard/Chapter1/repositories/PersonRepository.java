@@ -9,8 +9,5 @@ import org.springframework.data.repository.CrudRepository;
 import javax.transaction.*;
 
 public interface PersonRepository extends CrudRepository<Person, Integer> {
-    Person returnPerson (String name, Integer age);
-    Object returnArray (String name, Integer age);
-    Integer returnScalar (String name, Integer age);
-    String returnString (String name, Integer age);
+    Object returnPersonDTO(String name);
 }

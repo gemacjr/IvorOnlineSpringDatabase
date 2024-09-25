@@ -17,36 +17,24 @@ import java.util.List;
 public class MyController {
     //PROPERTIES
     @Autowired PersonRepository personRepository;
+
+
     //================================================================
-// RETURN PERSON
+// RETURN PERSON DTO
 //================================================================
-    @RequestMapping("ReturnPerson")
-    Person returnPerson() {
-        Person person = personRepository.returnPerson("John", 20);
-        return person;
+    @RequestMapping("ReturnPersonDTO")
+    PersonDTO returnPersonDTO() throws JsonProcessingException {
+//GET COLUMNS
+        Object[] columns = (Object[]) personRepository.returnPersonDTO("John"); //["John",20]
+//DISPLAY COLUMNS
+        String columnsJSON = new ObjectMapper().writeValueAsString(columns);
+        System.out.println(columnsJSON);
+//MAP COLUMNS INTO DTO
+        PersonDTO personDTO = new PersonDTO();
+        personDTO.name = (String ) columns[0];
+        personDTO.age = (Integer) columns[1];
+//RETURN DTO
+        return personDTO;
     }
-    //================================================================
-// RETURN ARRAY
-//================================================================
-    @RequestMapping("ReturnArray")
-    Object[] returnArray() {
-        Object[] array = (Object[]) personRepository.returnArray("John", 20);
-        return array;
-    }
-    //================================================================
-// RETURN STRING
-//================================================================
-    @RequestMapping("ReturnString")
-    String returnString() {
-        String nameAge = personRepository.returnString("John", 20);
-        return nameAge;
-    }
-    //================================================================
-// RETURN SCALAR
-//================================================================
-    @RequestMapping("ReturnScalar")
-    Integer returnScalar() {
-        Integer age = personRepository.returnScalar("John", 20);
-        return age;
-    }
+
 }
