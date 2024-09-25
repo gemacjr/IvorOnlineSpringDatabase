@@ -15,38 +15,64 @@ import java.util.List;
 
 @RestController
 public class MyController {//PROPERTIES
-    @Autowired DBAccess dbAccess;
+
+    //PROPERTIES
+    @PersistenceContext EntityManager entityManager;
     //================================================================
-// SELECT PERSON
+// RETURN PERSON
 //================================================================
-    @RequestMapping("SelectPerson")
-   public Person selectPerson() {
-        Person person = dbAccess.selectPerson();
+    @RequestMapping("ReturnPerson")
+    Person returnPerson() {
+//CREATE QUERY
+        String select = "SELECT * FROM Person WHERE name = :name";
+        Query query = entityManager.createNativeQuery(select, Person.class);
+        query.setParameter("name", "John");
+        //RETURN PERSON
+        Person person = (Person) query.getSingleResult();
+//RETURN PERSON
         return person;
     }
     //================================================================
-// INSERT PERSON
+// RETURN ARRAY
 //================================================================
-    @Transactional
-    @RequestMapping("InsertPerson")
-    public String insertPerson() {
-        Integer insertedRecords = dbAccess.insertPerson();
-        return insertedRecords + " Records Inserted";
+    @RequestMapping("ReturnArray")
+    Object[] returnArray() {
+//CREATE QUERY
+        String select = "SELECT age, name FROM Person WHERE name = :name";
+        Query query = entityManager.createNativeQuery(select);
+        query.setParameter("name"
+                , "John");
+//RETURN ARRAY
+        Object[] array = (Object[]) query.getSingleResult();
+//RETURN ARRAY
+        return array;
     }
     //================================================================
-// UPDATE PERSON
+// RETURN SCALAR
 //================================================================
-    @RequestMapping("UpdatePerson")
-   public String updatePerson() {
-        Integer updatedRecords = dbAccess.updatePerson();
-        return updatedRecords + " Records Updated";
+    @RequestMapping("ReturnScalar")
+    Integer returnScalar() {
+//CREATE QUERY
+        String select = "SELECT age FROM Person WHERE name = :name";
+        Query query = entityManager.createNativeQuery(select);
+        query.setParameter("name", "John");
+//RETURN SCALAR
+        Integer age = (Integer) query.getSingleResult();
+//RETURN SCALAR
+        return age;
     }
     //================================================================
-// DELETE PERSON
+// RETURN STRING (NOT WORKING)
 //================================================================
-    @RequestMapping("DeletePerson")
-   public String deletePerson() {
-        Integer deletedRecords = dbAccess.deletePerson();
-        return deletedRecords + " Records Deleted";
+    @RequestMapping("ReturnString")
+    String returnString() {
+//CREATE QUERY
+        String select = "SELECT name, age FROM Person WHERE name = :name";
+        Query query = entityManager.createNativeQuery(select);
+        query.setParameter("name", "John");
+//SELECT STRING
+        String nameAge = (String) query.getSingleResult(); //Throws Error
+//RETURN STRING
+        return nameAge;
     }
 }

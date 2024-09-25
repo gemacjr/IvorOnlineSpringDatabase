@@ -8,27 +8,24 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.*;
+
 
 @Component
 public class LoadPersons implements CommandLineRunner {
-    //PROPERTIES
-    @Autowired
-    AuthorRepository authorRepository;
+    @PersistenceContext
+    EntityManager entityManager;
     //=======================================================================================
 // RUN
 //=======================================================================================
     @Override
     @Transactional
-    public void run(String... args) {
-//CREATE ADDRESS ENTITY
-        Book book = new Book();
-        book.title = "Dogs";
-//CREATE AUTHOR ENTITY
-        Author author = new Author();
-        author.name = "John";
-        author.age = 20;
-        author.book = book;
-//STORE AUTHOR/ADDRESS ENTITY INTO DB
-        authorRepository.save(author);
+    public void run(String... args) throws Exception {
+//INSERT PERSON
+        String insert = "INSERT INTO PERSON (name, age) VALUES (:name, :age)";
+        Query query = entityManager.createNativeQuery(insert);
+        query.setParameter("name", "John");
+        query.setParameter("age" , 20);
+        query.executeUpdate();
     }
 }
