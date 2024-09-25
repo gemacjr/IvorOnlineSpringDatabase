@@ -19,22 +19,16 @@ public class MyController {//PROPERTIES
     //PROPERTIES
     @PersistenceContext EntityManager entityManager;
 
-    @RequestMapping("ReturnPersonDTO")
-    PersonDTO returnPersonDTO() throws JsonProcessingException {
+    @RequestMapping("SelectPerson")
+    Person selectPerson() {
 //CREATE QUERY
-        String select = "SELECT name, age FROM Person WHERE name = :name";
-        Query query = entityManager.createNativeQuery(select);
+        String select = "SELECT id, name AS authorName, age AS authorAge FROM Person WHERE name = :name";
+        Query query = entityManager.createNativeQuery(select,
+                "PersonMapping");
         query.setParameter("name", "John");
-//EXECUTE QUERY (Returns Properties as Array Elements)
-        Object[] columns = (Object[]) query.getSingleResult(); //["John",20]
-//MAP ARRAY ELEMENTS INTO DTO PROPERTIES
-        PersonDTO personDTO = new PersonDTO();
-        personDTO.name = (String ) columns[0];
-        personDTO.age = (Integer) columns[1];
-//DISPLAY ARRAY ELEMENTS TO CONSOLE
-        String columnsJSON = new ObjectMapper().writeValueAsString(columns); //["John",20]
-        System.out.println(columnsJSON);
-//RETURN DTO
-        return personDTO;
+//SELECT PERSON
+        Person person = (Person) query.getSingleResult();
+//RETURN PERSON
+        return person;
     }
 }
