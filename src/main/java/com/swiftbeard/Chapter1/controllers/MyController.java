@@ -18,17 +18,10 @@ public class MyController {
     //PROPERTIES
     @Autowired PersonRepository personRepository;
 
-    //================================================================
-// SELECT PERSON
-//================================================================
     @RequestMapping("SelectPerson")
-    PersonDTO selectPerson() throws JsonProcessingException {
-//GET PERSON DTO
-        PersonDTO personDTO = personRepository.selectPerson("John");
-//DISPLAY PERSON DTO
-        System.out.println(new ObjectMapper().writeValueAsString(personDTO));
-//RETURN PERSON DTO
-        return personDTO;
+    Object[] selectPerson() {
+        Object[] objectArray = (Object[]) personRepository.selectPerson("John");
+        return objectArray;
     }
 
 }

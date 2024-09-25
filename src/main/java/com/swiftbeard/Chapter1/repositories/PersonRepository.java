@@ -8,6 +8,5 @@ import org.springframework.data.repository.CrudRepository;
 import javax.transaction.*;
 
 public interface PersonRepository extends CrudRepository<Person, Integer> {
-    @Query(nativeQuery=true)
-    PersonDTO selectPerson(String name);
+    Object[] selectPerson(String name);
 }
